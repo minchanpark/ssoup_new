@@ -65,12 +65,13 @@ class _LoginWithIdState extends State<LoginWithId> {
       }
     } on FirebaseAuthException catch (e) {
       String message;
-      if (e.code == 'user-not-found') {
+      if (e.code == 'invalid-email') {
         message = '등록되지 않은 사용자입니다. 먼저 회원가입 해주세요.';
-      } else if (e.code == 'wrong-password') {
+      } else if (e.code == 'invalid-credential') {
         message = '비밀번호가 일치하지 않습니다.';
       } else {
-        message = '알 수 없는 에러가 발생하였습니다.';
+        //위에서 처리되지 않는 에러들에 대해서 출력할 에러 메세지
+        message = '알 수 없는 에러가 발생하였습니다. 다시 시도해주세요.';
       }
 
       // Show error message
@@ -85,38 +86,44 @@ class _LoginWithIdState extends State<LoginWithId> {
 
   @override
   Widget build(BuildContext context) {
+    double appWidth = MediaQuery.of(context).size.width;
+    double appHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        scrolledUnderElevation: 0,
         title: Text(
           '로그인',
           style: bold15.copyWith(
             fontWeight: FontWeight.w600,
             height: 0.05,
-            fontSize: 20,
+            fontSize: (20 / 393) * appWidth,
           ),
         ),
+        centerTitle: true,
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(28.0),
+          padding: EdgeInsets.all((28.0 / 393) * appWidth),
           child: Form(
             key: _formKey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 10),
+                SizedBox(height: (10 / 852) * appHeight),
                 Text(
                   "*아이디",
                   style: medium15.copyWith(
                     color: Colors.black,
                     fontWeight: FontWeight.w500,
                     height: 0.09,
+                    fontSize: (15 / 393) * appWidth,
                   ),
                 ),
-                const SizedBox(height: 5),
+                SizedBox(height: (5 / 852) * appHeight),
                 TextFormField(
                   controller: _idController,
                   maxLines: 1,
@@ -125,7 +132,7 @@ class _LoginWithIdState extends State<LoginWithId> {
                     hintStyle: medium15.copyWith(
                       color: const Color(0xFFB0B0B0),
                       fontWeight: FontWeight.w500,
-                      fontSize: 12,
+                      fontSize: (12 / 393) * appWidth,
                     ),
                     border: const UnderlineInputBorder(),
                   ),
@@ -136,16 +143,17 @@ class _LoginWithIdState extends State<LoginWithId> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 30.0),
+                SizedBox(height: (30.0 / 852) * appHeight),
                 Text(
                   "*비밀번호",
                   style: medium15.copyWith(
                     color: Colors.black,
                     fontWeight: FontWeight.w500,
                     height: 0.09,
+                    fontSize: (15 / 393) * appWidth,
                   ),
                 ),
-                const SizedBox(height: 5),
+                SizedBox(height: (5 / 852) * appHeight),
                 TextFormField(
                   controller: _passwordController,
                   obscureText: true, // To obscure the password input
@@ -155,6 +163,7 @@ class _LoginWithIdState extends State<LoginWithId> {
                       color: const Color(0xFFB0B0B0),
                       fontWeight: FontWeight.w500,
                       height: 0.12,
+                      fontSize: (12 / 393) * appWidth,
                     ),
                     border: const UnderlineInputBorder(),
                   ),
@@ -165,18 +174,19 @@ class _LoginWithIdState extends State<LoginWithId> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 294.0),
+                SizedBox(height: (294.0 / 852) * appHeight),
                 SizedBox(
-                  width: 336,
-                  height: 47,
+                  width: (336 / 393) * appWidth,
+                  height: (47 / 852) * appHeight,
                   child: ElevatedButton(
                     onPressed: _isLoading ? null : _login,
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all(const Color(0xFF6FA0E6)),
-                      shape: MaterialStateProperty.all(
+                          WidgetStateProperty.all(const Color(0xFF6FA0E6)),
+                      shape: WidgetStateProperty.all(
                         RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius:
+                              BorderRadius.circular((12 / 393) * appWidth),
                         ),
                       ),
                     ),
@@ -189,6 +199,7 @@ class _LoginWithIdState extends State<LoginWithId> {
                               fontWeight: FontWeight.w500,
                               height: 0.08,
                               color: Colors.white,
+                              fontSize: (16 / 393) * appWidth,
                             ),
                           ),
                   ),

@@ -111,13 +111,9 @@ class _NickNamePageState extends State<NickNamePage> {
                 ),
               ),
             ),
-            SizedBox(height: screenHeight * 0.22),
             Image.asset(
-              "assets/nickname_fish.png",
-              width: screenWidth * 0.32,
-              height: screenHeight * 0.2,
+              "assets/ul.png",
             ),
-            SizedBox(height: screenHeight * 0.09),
             Opacity(
               opacity: isNickNameFilled ? 1.0 : 0.6,
               child: ElevatedButton(

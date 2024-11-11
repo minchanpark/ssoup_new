@@ -33,7 +33,7 @@ class _SettingsPageState extends State<SettingsPage> {
     fetchNickName();
   }
 
-  void _logout() {
+  /*void _logout() {
     try {
       FirebaseAuth.instance.signOut();
       Navigator.pushAndRemoveUntil(
@@ -44,7 +44,7 @@ class _SettingsPageState extends State<SettingsPage> {
     } catch (e) {
       print('Error logging out: $e');
     }
-  }
+  }*/
 
   void _deleteAccount() {
     try {
@@ -100,6 +100,44 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  void _logoutDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          title: const Text('로그아웃'),
+          content: const Text('로그아웃 하시겠습니까?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                '취소',
+                style: medium13.copyWith(color: Color(0xFF1A86FF)),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text(
+                '로그아웃',
+                style: medium13.copyWith(color: Color(0xff9D9D9D)),
+              ),
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyApp()),
+                  (Route<dynamic> route) => false, // 모든 이전 페이지 스택을 제거
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double appWidth = MediaQuery.of(context).size.width;
@@ -139,11 +177,18 @@ class _SettingsPageState extends State<SettingsPage> {
               child: Row(
                 children: [
                   Container(
-                    width: 65,
-                    height: 65,
-                    decoration: const ShapeDecoration(
-                      color: Color(0xFFD9D9D9),
-                      shape: OvalBorder(),
+                    width: (65 / 393) * appWidth,
+                    height: (65 / 852) * appHeight,
+                    decoration: ShapeDecoration(
+                      color: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(100),
+                        side: BorderSide(color: Colors.black),
+                      ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Image.asset("assets/ul.png"),
                     ),
                   ),
                   const SizedBox(width: 6),
@@ -200,7 +245,7 @@ class _SettingsPageState extends State<SettingsPage> {
         } else if (index == 1) {
           Navigator.pushNamed(context, "/private");
         } else if (index == 2) {
-          _logout(); // 로그아웃 기능
+          _logoutDialog(); // 로그아웃 기능
         } else if (index == 3) {
           _showDeleteAccountDialog(); // 회원탈퇴 기능
         }

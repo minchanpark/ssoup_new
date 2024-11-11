@@ -94,30 +94,38 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    double appWidth = MediaQuery.of(context).size.width;
     double appHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         scrolledUnderElevation: 0,
+        elevation: 0,
         title: Text(
           '회원가입',
           style: bold15.copyWith(
-            fontSize: 20,
+            fontSize: (20 / 393) * appWidth,
             fontWeight: FontWeight.w600,
             height: 0.05,
             color: Colors.black,
           ),
         ),
+        centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(28),
+        padding: EdgeInsets.all((28 / 393) * appWidth),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('*이메일',
-                  style: medium15.copyWith(fontWeight: FontWeight.w500)),
+              Text(
+                '*이메일',
+                style: medium15.copyWith(
+                  fontWeight: FontWeight.w500,
+                  fontSize: (15 / 393) * appWidth,
+                ),
+              ),
               TextField(
                 controller: _emailController,
                 cursorColor: Colors.black,
@@ -129,13 +137,17 @@ class _RegisterPageState extends State<RegisterPage> {
                     color: const Color(0xFFB0B0B0),
                     fontWeight: FontWeight.w500,
                     height: 0.12,
+                    fontSize: (15 / 393) * appWidth,
                   ),
                 ),
               ),
               SizedBox(height: (22 / 852) * appHeight),
               Text(
                 '*비밀번호',
-                style: medium15.copyWith(fontWeight: FontWeight.w500),
+                style: medium15.copyWith(
+                  fontWeight: FontWeight.w500,
+                  fontSize: (15 / 393) * appWidth,
+                ),
               ),
               TextField(
                 controller: _passwordController,
@@ -150,13 +162,17 @@ class _RegisterPageState extends State<RegisterPage> {
                     color: const Color(0xFFB0B0B0),
                     fontWeight: FontWeight.w500,
                     height: 0.12,
+                    fontSize: (15 / 393) * appWidth,
                   ),
                 ),
               ),
               SizedBox(height: (22 / 852) * appHeight),
               Text(
                 '*비밀번호 확인',
-                style: medium15.copyWith(fontWeight: FontWeight.w500),
+                style: medium15.copyWith(
+                  fontWeight: FontWeight.w500,
+                  fontSize: (15 / 393) * appWidth,
+                ),
               ),
               TextField(
                 controller: _passwordConfirmController,
@@ -171,6 +187,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     color: const Color(0xFFB0B0B0),
                     fontWeight: FontWeight.w500,
                     height: 0.12,
+                    fontSize: (15 / 393) * appWidth,
                   ),
                   errorText: _passwordError.isNotEmpty ? _passwordError : null,
                 ),
@@ -178,7 +195,10 @@ class _RegisterPageState extends State<RegisterPage> {
               SizedBox(height: (22 / 852) * appHeight),
               Text(
                 '*이름',
-                style: medium15.copyWith(fontWeight: FontWeight.w500),
+                style: medium15.copyWith(
+                  fontWeight: FontWeight.w500,
+                  fontSize: (15 / 393) * appWidth,
+                ),
               ),
               TextField(
                 controller: _nameController,
@@ -192,21 +212,23 @@ class _RegisterPageState extends State<RegisterPage> {
                     color: const Color(0xFFB0B0B0),
                     fontWeight: FontWeight.w500,
                     height: 0.12,
+                    fontSize: (15 / 393) * appWidth,
                   ),
                 ),
               ),
               SizedBox(height: (51 / 852) * appHeight),
               SizedBox(
-                width: 336,
-                height: 47,
+                width: (336 / 393) * appWidth,
+                height: (47 / 852) * appHeight,
                 child: ElevatedButton(
                   onPressed: _signUp,
                   style: ButtonStyle(
                     backgroundColor:
-                        const WidgetStatePropertyAll(Color(0xFF6FA0E6)),
-                    shape: WidgetStatePropertyAll(
+                        WidgetStateProperty.all(const Color(0xFF6FA0E6)),
+                    shape: WidgetStateProperty.all(
                       RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius:
+                            BorderRadius.circular((12 / 393) * appWidth),
                       ),
                     ),
                   ),
@@ -217,6 +239,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       fontWeight: FontWeight.w500,
                       height: 0.08,
                       color: Colors.white,
+                      fontSize: (16 / 393) * appWidth,
                     ),
                   ),
                 ),

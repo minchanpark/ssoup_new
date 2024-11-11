@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/ph.dart';
-import 'package:ssoup_new/location/tour_list.dart';
-import 'package:ssoup_new/theme/text.dart';
+import '../location/tour_list.dart';
+import '../theme/text.dart';
 import 'custom_progress_bar.dart';
 
 class HomePage extends StatelessWidget {
@@ -20,13 +20,13 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.white,
         scrolledUnderElevation: 0,
         elevation: 0,
-        toolbarHeight: 70,
+        toolbarHeight: (70 / 852) * appHeight,
         title: Row(
           children: [
-            const SizedBox(width: 10),
+            SizedBox(width: (10 / 393) * appWidth),
             Container(
-              width: 76,
-              height: 48,
+              width: (76 / 393) * appWidth,
+              height: (48 / 852) * appHeight,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/logo.png'),
@@ -43,8 +43,8 @@ class HomePage extends StatelessWidget {
             },
             icon: SvgPicture.asset(
               'assets/setting_line_light.svg',
-              width: 33,
-              height: 33,
+              width: (33 / 393) * appWidth,
+              height: (33 / 852) * appHeight,
             ),
           ),
           SizedBox(width: (10 / 393) * appWidth),
@@ -55,7 +55,13 @@ class HomePage extends StatelessWidget {
           children: [
             SizedBox(height: (22 / 852) * appHeight),
             const CustomProgressBar(),
-            Image.asset('assets/ul.png'),
+            SizedBox(
+              width: appWidth,
+              child: Image.asset(
+                'assets/ul.png',
+                fit: BoxFit.cover,
+              ),
+            ),
             // 버튼 섹션
             Padding(
               padding:
@@ -64,12 +70,13 @@ class HomePage extends StatelessWidget {
                 children: [
                   // 울릉도 관광명소 버튼
                   OutlinedButton(
-                    style: ElevatedButton.styleFrom(
+                    style: OutlinedButton.styleFrom(
                       overlayColor: Colors.blue,
                       side:
                           const BorderSide(color: Color(0xff79BFF4), width: 2),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius:
+                            BorderRadius.circular((10 / 393) * appWidth),
                       ),
                     ),
                     onPressed: () {
@@ -79,8 +86,8 @@ class HomePage extends StatelessWidget {
                               builder: (context) => const TourListPage()));
                     },
                     child: SizedBox(
-                      width: 342,
-                      height: 84,
+                      width: (342 / 393) * appWidth,
+                      height: (84 / 852) * appHeight,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -91,10 +98,10 @@ class HomePage extends StatelessWidget {
                             children: [
                               SvgPicture.asset(
                                 'assets/map_svg.svg',
-                                width: 29.08,
-                                height: 34.58,
+                                width: (29.08 / 393) * appWidth,
+                                height: (34.58 / 852) * appHeight,
                               ),
-                              const SizedBox(width: 17),
+                              SizedBox(width: (17 / 393) * appWidth),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -102,7 +109,7 @@ class HomePage extends StatelessWidget {
                                   Text(
                                     '울릉도 관광명소',
                                     style: medium15.copyWith(
-                                      fontSize: 18,
+                                      fontSize: (18 / 393) * appWidth,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -110,14 +117,14 @@ class HomePage extends StatelessWidget {
                                     children: [
                                       Image.asset(
                                         'assets/arrow.png',
-                                        width: 14,
-                                        height: 14,
+                                        width: (14 / 393) * appWidth,
+                                        height: (14 / 852) * appHeight,
                                       ),
-                                      const SizedBox(width: 4),
+                                      SizedBox(width: (4 / 393) * appWidth),
                                       Text(
                                         '관광지 100곳',
                                         style: regular10.copyWith(
-                                          fontSize: 12,
+                                          fontSize: (12 / 393) * appWidth,
                                           fontWeight: FontWeight.w200,
                                         ),
                                       ),
@@ -128,19 +135,20 @@ class HomePage extends StatelessWidget {
                             ],
                           ),
                           Container(
-                            width: 76,
-                            height: 26,
+                            width: (76 / 393) * appWidth,
+                            height: (26 / 852) * appHeight,
                             decoration: ShapeDecoration(
                               color: const Color(0xff8ECCFC),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(
+                                    (12 / 393) * appWidth),
                               ),
                             ),
                             child: Center(
                               child: Text(
                                 '관광하기',
                                 style: medium13.copyWith(
-                                  fontSize: 12,
+                                  fontSize: (12 / 393) * appWidth,
                                   fontWeight: FontWeight.w500,
                                   height: 0.21,
                                   letterSpacing: -0.32,
@@ -160,23 +168,24 @@ class HomePage extends StatelessWidget {
                       side:
                           const BorderSide(color: Color(0xff79BFF4), width: 2),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius:
+                            BorderRadius.circular((10 / 393) * appWidth),
                       ),
                     ),
                     onPressed: () {
                       Navigator.pushNamed(context, "/plogging_page");
                     },
                     child: SizedBox(
-                      width: 342,
-                      height: 84,
+                      width: (342 / 393) * appWidth,
+                      height: (84 / 852) * appHeight,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
                             children: [
-                              const Iconify(Ph.person_simple_walk_light,
-                                  size: 34),
-                              const SizedBox(width: 17),
+                              Iconify(Ph.person_simple_walk_light,
+                                  size: (34 / 393) * appWidth),
+                              SizedBox(width: (17 / 393) * appWidth),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -184,7 +193,7 @@ class HomePage extends StatelessWidget {
                                   Text(
                                     '울릉도 플로깅',
                                     style: medium15.copyWith(
-                                      fontSize: 18,
+                                      fontSize: (18 / 393) * appWidth,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -192,14 +201,14 @@ class HomePage extends StatelessWidget {
                                     children: [
                                       Image.asset(
                                         'assets/happy.png',
-                                        width: 14,
-                                        height: 14,
+                                        width: (14 / 393) * appWidth,
+                                        height: (14 / 852) * appHeight,
                                       ),
-                                      const SizedBox(width: 4),
+                                      SizedBox(width: (4 / 393) * appWidth),
                                       Text(
                                         '플로깅 인증하고 선물받기',
                                         style: regular10.copyWith(
-                                          fontSize: 12,
+                                          fontSize: (12 / 393) * appWidth,
                                           fontWeight: FontWeight.w200,
                                         ),
                                       ),
@@ -210,19 +219,20 @@ class HomePage extends StatelessWidget {
                             ],
                           ),
                           Container(
-                            width: 76,
-                            height: 26,
+                            width: (76 / 393) * appWidth,
+                            height: (26 / 852) * appHeight,
                             decoration: ShapeDecoration(
                               color: const Color(0xff8ECCFC),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(
+                                    (12 / 393) * appWidth),
                               ),
                             ),
                             child: Center(
                               child: Text(
                                 '플로깅하기',
                                 style: medium13.copyWith(
-                                  fontSize: 12,
+                                  fontSize: (12 / 393) * appWidth,
                                   fontWeight: FontWeight.w500,
                                   height: 0.21,
                                   letterSpacing: -0.32,
