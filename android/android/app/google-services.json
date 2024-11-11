@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "159990997817",
+    "project_id": "ssoup-82c05",
+    "storage_bucket": "ssoup-82c05.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:159990997817:android:337de613d5d77d74ed7ee8",
+        "android_client_info": {
+          "package_name": "com.soda.uleung"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "159990997817-db0df385ao72vndsgrdei1oo59hap2b1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.soda.uleung",
+            "certificate_hash": "7cf14d11193b1a0b586ae7f47b438ec05afc3caf"
+          }
+        },
+        {
+          "client_id": "159990997817-doskkhkq5b274tgtp8519eu2vntmca5f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALYtGU28ETOC2lZi_uSZlMrrVDd7UgZnc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "159990997817-5e1d1fv21gkvvbml4s27btj6et84qiao.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "159990997817-6f382o1qjbnga4k132u5dktmh7uev3dj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ssoup"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
