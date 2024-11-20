@@ -53,6 +53,8 @@ dependencies:
   google_sign_in: ^6.2.1
   iconify_flutter: ^0.0.7
   bitcoin_icons: ^0.0.4
+  flutter_secure_storage: ^4.2.1
+  dio: ^5.7.0
 
 dev_dependencies:
   flutter_test:

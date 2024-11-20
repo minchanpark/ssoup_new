@@ -15,7 +15,6 @@ class TourListPage extends StatefulWidget {
 class _TourListPageState extends State<TourListPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -23,6 +22,7 @@ class _TourListPageState extends State<TourListPage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -32,8 +32,9 @@ class _TourListPageState extends State<TourListPage> {
         title: Text(
           '관광 명소',
           style: medium20.copyWith(
-              color: const Color(0xff484646),
-              fontSize: screenWidth * (20 / 393)),
+            color: const Color(0xff484646),
+            fontSize: screenWidth * 0.05, // Relative font size
+          ),
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -62,14 +63,13 @@ class _TourListPageState extends State<TourListPage> {
 
               return Column(
                 children: [
-                  SizedBox(height: screenHeight * (10 / 852)),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => TourDetailPage(
-                            tourId: tour.id, // courseId 전달
+                            tourId: tour.id,
                             tourImage: tour.image,
                             tourLocationName: tour.locationName,
                             location: tour.location,
@@ -80,24 +80,24 @@ class _TourListPageState extends State<TourListPage> {
                     },
                     child: Container(
                       margin: EdgeInsets.symmetric(
-                        vertical: (13.0 / 852) * screenHeight,
-                        horizontal: (25.0 / 393) * screenWidth,
+                        vertical: screenHeight * 0.015,
+                        horizontal: screenWidth * 0.06,
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(color: const Color(0xffB7CFFF)),
                         borderRadius: BorderRadius.circular(4.0),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: EdgeInsets.all(screenWidth * 0.025),
                         child: Row(
                           children: [
                             Image.network(
                               tour.image,
-                              width: (78 / 393) * screenWidth,
-                              height: 78,
+                              width: screenWidth * 0.2,
+                              height: screenWidth * 0.2,
                               fit: BoxFit.cover,
                             ),
-                            SizedBox(width: screenWidth * (9.0 / 393)),
+                            SizedBox(width: screenWidth * 0.02),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,24 +106,25 @@ class _TourListPageState extends State<TourListPage> {
                                     tour.locationName,
                                     style: medium15.copyWith(
                                       fontWeight: FontWeight.w500,
+                                      fontSize: screenWidth * 0.038,
                                       letterSpacing: -0.32,
                                     ),
                                   ),
-                                  SizedBox(height: screenHeight * (5.0 / 852)),
+                                  SizedBox(height: screenHeight * 0.006),
                                   Row(
                                     children: [
                                       SvgPicture.asset(
                                         'assets/system-uicons_location.svg',
-                                        width: 18,
-                                        height: 18,
+                                        width: screenWidth * 0.045,
+                                        height: screenWidth * 0.045,
                                         color: const Color(0xff000000),
                                       ),
-                                      SizedBox(width: screenWidth * (3 / 393)),
+                                      SizedBox(width: screenWidth * 0.008),
                                       Expanded(
                                         child: Text(
                                           tour.address,
                                           style: light11.copyWith(
-                                            fontSize: (11 / 393) * screenWidth,
+                                            fontSize: screenWidth * 0.028,
                                             fontWeight: FontWeight.w300,
                                             height: 1.1,
                                             letterSpacing: -0.32,
@@ -132,16 +133,16 @@ class _TourListPageState extends State<TourListPage> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: screenHeight * (5 / 852)),
+                                  SizedBox(height: screenHeight * 0.006),
                                   Row(
                                     children: [
                                       SvgPicture.asset(
                                         'assets/ph_star.svg',
-                                        width: 18,
-                                        height: 18,
+                                        width: screenWidth * 0.045,
+                                        height: screenWidth * 0.045,
                                         color: const Color(0xff000000),
                                       ),
-                                      SizedBox(width: screenWidth * (3 / 393)),
+                                      SizedBox(width: screenWidth * 0.008),
                                       FutureBuilder<QuerySnapshot>(
                                         future: FirebaseFirestore.instance
                                             .collection('locationMap')
@@ -151,13 +152,17 @@ class _TourListPageState extends State<TourListPage> {
                                         builder: (context, snapshot) {
                                           int reviewCount =
                                               snapshot.data?.size ?? 0;
-                                          return Text("리뷰 $reviewCount개",
-                                              style: light11);
+                                          return Text(
+                                            "리뷰 $reviewCount개",
+                                            style: light11.copyWith(
+                                              fontSize: screenWidth * 0.028,
+                                            ),
+                                          );
                                         },
                                       ),
                                     ],
                                   ),
-                                  SizedBox(width: screenWidth * (4 / 393)),
+                                  SizedBox(width: screenWidth * 0.01),
                                 ],
                               ),
                             ),
@@ -177,7 +182,7 @@ class _TourListPageState extends State<TourListPage> {
 }
 
 class TourList {
-  final String id; // 코스 ID 추가
+  final String id;
   final String image;
   final List location;
   final String address;
@@ -185,7 +190,7 @@ class TourList {
   final String duration;
 
   TourList({
-    required this.id, // 코스 ID 추가
+    required this.id,
     required this.image,
     required this.location,
     required this.locationName,

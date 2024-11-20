@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:bitcoin_icons/bitcoin_icons.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/ph.dart';
-import 'package:iconify_flutter/icons/et.dart';
 import 'package:ssoup_new/about_map/bigmap.dart';
 import 'package:ssoup_new/about_home/home.dart';
 import 'package:ssoup_new/stamp.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
 import '../transport/transport_page.dart';
 
 class HomePageNavigationBar extends StatefulWidget {
@@ -28,6 +22,8 @@ class _HomePageNavigationBarState extends State<HomePageNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
@@ -64,54 +60,63 @@ class _HomePageNavigationBarState extends State<HomePageNavigationBar> {
             },
             selectedIndex: currentPageIndex,
             destinations: <Widget>[
-              const NavigationDestination(
-                selectedIcon: Icon(BitcoinIcons.home_outline,
-                    color: Color(0xff1a86ff), size: 31),
-                icon: Icon(
-                  BitcoinIcons.home_outline,
-                  size: 31,
-                  color: Color(0xff9d9d9d),
+              NavigationDestination(
+                selectedIcon: Image.asset(
+                  "assets/home.png",
+                  width: (31 / 393) * screenWidth,
+                  height: (31 / 852) * screenHeight,
+                  color: const Color(0xff1a86ff),
+                ),
+                icon: Image.asset(
+                  "assets/home.png",
+                  width: (31 / 393) * screenWidth,
+                  height: (31 / 852) * screenHeight,
+                  color: const Color(0xff9d9d9d),
                 ),
                 label: '홈',
               ),
               NavigationDestination(
-                icon: SvgPicture.asset(
-                  'assets/fluent-stamp-32-light.svg',
-                  width: 31,
-                  height: 31,
+                icon: Image.asset(
+                  'assets/stamp.png',
+                  width: (31 / 393) * screenWidth,
+                  height: (31 / 852) * screenHeight,
                   color: const Color(0xff9d9d9d),
                 ),
-                selectedIcon: SvgPicture.asset(
-                  'assets/fluent-stamp-32-light.svg',
-                  width: 31,
-                  height: 31,
+                selectedIcon: Image.asset(
+                  'assets/stamp.png',
+                  width: (31 / 393) * screenWidth,
+                  height: (31 / 852) * screenHeight,
                   color: const Color(0xff1a86ff),
                 ),
                 label: '스탬프',
               ),
-              const NavigationDestination(
-                icon: Iconify(
-                  Et.map,
-                  size: 31,
-                  color: Color(0xff9d9d9d),
+              NavigationDestination(
+                icon: Image.asset(
+                  'assets/map_home.png',
+                  width: (31 / 393) * screenWidth,
+                  height: (31 / 852) * screenHeight,
+                  color: const Color(0xff9d9d9d),
                 ),
-                selectedIcon: Iconify(
-                  Et.map,
-                  size: 31,
-                  color: Color(0xff1a86ff),
+                selectedIcon: Image.asset(
+                  'assets/map_home.png',
+                  width: (31 / 393) * screenWidth,
+                  height: (31 / 852) * screenHeight,
+                  color: const Color(0xff1a86ff),
                 ),
                 label: '지도',
               ),
-              const NavigationDestination(
-                icon: Iconify(
-                  Ph.taxi_thin,
-                  size: 31,
-                  color: Color(0xff9d9d9d),
+              NavigationDestination(
+                icon: Image.asset(
+                  'assets/taxi_home.png',
+                  width: (31 / 393) * screenWidth,
+                  height: (31 / 852) * screenHeight,
+                  color: const Color(0xff9d9d9d),
                 ),
-                selectedIcon: Iconify(
-                  Ph.taxi_thin,
-                  size: 31,
-                  color: Color(0xff1a86ff),
+                selectedIcon: Image.asset(
+                  'assets/taxi_home.png',
+                  width: (31 / 393) * screenWidth,
+                  height: (31 / 852) * screenHeight,
+                  color: const Color(0xff1a86ff),
                 ),
                 label: '이동수단',
               ),

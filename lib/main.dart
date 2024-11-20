@@ -51,6 +51,7 @@ class MyApp extends StatelessWidget {
         "/splash": (BuildContext context) => const SplashPage(),
         "/private": (BuildContext context) => const PrivatePage(),
         "/service": (BuildContext context) => const ServicePage(),
+        "/login_page": (BuildContext context) => const LoginPage(),
       },
       home: const LoginPage(),
     );

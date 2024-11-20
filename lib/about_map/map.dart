@@ -204,15 +204,16 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                         children: <Widget>[
                           // 스탬프 획득 텍스트
                           Padding(
-                            padding: const EdgeInsets.only(
-                              top: 69,
-                              bottom: 31,
+                            padding: EdgeInsets.only(
+                              top: (69 / 852) * screenHeight,
+                              bottom: (31 / 852) * screenHeight,
                             ),
                             child: Text(
                               '스탬프 획득',
                               style: extrabold24.copyWith(
                                 fontFamily: 'S-Core Dream',
                                 fontWeight: FontWeight.w700,
+                                fontSize: (24 / 393) * screenWidth,
                                 height: 0.04,
                                 color: const Color(0xFF1E528D),
                               ),
@@ -244,6 +245,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                             '${stampDetail['location']} 플로깅 인증 완료!',
                             style: medium16.copyWith(
                               fontWeight: FontWeight.w500,
+                              fontSize: (16 / 393) * screenWidth,
                               letterSpacing: -0.32,
                             ),
                             textAlign: TextAlign.center,
@@ -254,6 +256,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                             style: medium16.copyWith(
                               fontWeight: FontWeight.w500,
                               letterSpacing: -0.32,
+                              fontSize: (16 / 393) * screenWidth,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -302,7 +305,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600,
                                     height: 0.11,
-                                    fontSize: 14,
+                                    fontSize: (14 / 393) * screenWidth,
                                   ),
                                 ),
                               ),
@@ -334,7 +337,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                                     color: const Color(0xFF4FA2FF),
                                     fontWeight: FontWeight.w600,
                                     height: 0.11,
-                                    fontSize: 14,
+                                    fontSize: (14 / 393) * screenWidth,
                                   ),
                                 ),
                               ),

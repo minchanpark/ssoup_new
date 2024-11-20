@@ -58,7 +58,7 @@ class BoatPage extends StatelessWidget {
         title: Text(
           '독도 배편 예약 링크',
           style: medium16.copyWith(
-            fontSize: 20,
+            fontSize: screenWidth * 0.05,
             fontWeight: FontWeight.w500,
             height: 0.07,
             letterSpacing: -0.32,
@@ -69,18 +69,19 @@ class BoatPage extends StatelessWidget {
       body: Column(
         children: [
           Divider(
-            indent: (25 / 393) * screenWidth,
-            endIndent: (25 / 393) * screenWidth,
+            indent: screenWidth * 0.06,
+            endIndent: screenWidth * 0.06,
           ),
           Padding(
             padding: EdgeInsets.only(
-              right: (280 / 393) * screenWidth,
-              top: (35 / 852) * screenHeight,
-              bottom: (7 / 852) * screenHeight,
+              right: screenWidth * 0.71,
+              top: screenHeight * 0.04,
+              bottom: screenHeight * 0.008,
             ),
             child: Text(
               '울릉출항',
               style: medium15.copyWith(
+                fontSize: screenWidth * 0.04,
                 fontWeight: FontWeight.w500,
                 height: 0.09,
                 letterSpacing: -0.32,
@@ -90,18 +91,13 @@ class BoatPage extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               itemCount: ferryData.length,
-              padding: EdgeInsets.symmetric(
-                horizontal: (25 / 393) * screenWidth,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
               itemBuilder: (context, index) {
                 return Container(
-                  width: 343,
-                  height: 111,
-                  margin:
-                      EdgeInsets.symmetric(vertical: (9 / 852) * screenHeight),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: (16 / 393) * screenWidth,
-                  ),
+                  width: screenWidth * 0.87,
+                  height: screenHeight * 0.13,
+                  margin: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16.0),
@@ -117,7 +113,7 @@ class BoatPage extends StatelessWidget {
                         ferryData[index]['time']!,
                         style: bold15.copyWith(
                           color: const Color(0xFF4367AD),
-                          fontSize: 20,
+                          fontSize: screenWidth * 0.05,
                           fontWeight: FontWeight.w600,
                           letterSpacing: -0.32,
                         ),
@@ -129,15 +125,17 @@ class BoatPage extends StatelessWidget {
                           Text(
                             ferryData[index]['company']!,
                             style: regular13.copyWith(
+                              fontSize: screenWidth * 0.033,
                               fontWeight: FontWeight.w200,
                               height: 0.12,
                               letterSpacing: -0.32,
                             ),
                           ),
-                          const SizedBox(height: 4),
+                          SizedBox(height: screenHeight * 0.005),
                           Text(
                             '소요시간 : ${ferryData[index]['duration']}',
                             style: medium16.copyWith(
+                              fontSize: screenWidth * 0.04,
                               fontWeight: FontWeight.w500,
                               letterSpacing: -0.32,
                             ),
@@ -166,13 +164,14 @@ class BoatPage extends StatelessWidget {
                             SvgPicture.asset(
                               "assets/arrow_up.svg",
                               color: Colors.blue,
-                              width: (32.89 / 393) * screenWidth,
-                              height: (32.89 / 852) * screenHeight,
+                              width: screenWidth * 0.08,
+                              height: screenHeight * 0.04,
                             ),
                             Text(
                               '바로가기',
                               style: regular10.copyWith(
                                 color: const Color(0xFF4FA2FF),
+                                fontSize: screenWidth * 0.033,
                                 fontWeight: FontWeight.w200,
                                 decoration: TextDecoration.underline,
                                 decorationColor: const Color(0xFF4FA2FF),
@@ -182,7 +181,7 @@ class BoatPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 );

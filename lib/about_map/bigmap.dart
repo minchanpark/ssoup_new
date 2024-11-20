@@ -78,7 +78,7 @@ class _BigMapPageState extends State<BigMapPage> {
     final snapshot =
         await FirebaseFirestore.instance.collection('locationMap').get();
     for (var doc in snapshot.docs) {
-      final data = doc.data() as Map<String, dynamic>;
+      final data = doc.data();
       final LatLng location = LatLng(data['location'][0], data['location'][1]);
       final String name = data['locationName'];
       final String information = data['information'];
@@ -110,7 +110,7 @@ class _BigMapPageState extends State<BigMapPage> {
     final snapshot =
         await FirebaseFirestore.instance.collection('trashMap').get();
     for (var doc in snapshot.docs) {
-      final data = doc.data() as Map<String, dynamic>;
+      final data = doc.data();
       final LatLng location = LatLng(data['location'][0], data['location'][1]);
 
       final Marker trashMarker = Marker(
@@ -217,8 +217,8 @@ class _BigMapPageState extends State<BigMapPage> {
                       IconButton(
                         icon: Icon(
                           Icons.close,
-                          size: 34,
-                          color: Color(0xFFD9D9D9),
+                          size: (34 / 393) * screenWidth,
+                          color: const Color(0xFFD9D9D9),
                         ),
                         onPressed: () {
                           Navigator.of(context).pop();
@@ -235,7 +235,7 @@ class _BigMapPageState extends State<BigMapPage> {
                   Text(
                     address,
                     style: regular10.copyWith(
-                      color: Color(0xFF909090),
+                      color: const Color(0xFF909090),
                       fontSize: (14 / 393) * screenWidth,
                       fontWeight: FontWeight.w200,
                     ),
@@ -243,23 +243,21 @@ class _BigMapPageState extends State<BigMapPage> {
                   SizedBox(height: (18 / 852) * screenHeight),
                   GestureDetector(
                     onTap: () {
-                      //클릭하면 전화할 수 있는 함수 추가하기
                       _makePhoneCall(phoneNumber);
                     },
                     child: Row(
                       children: [
                         SvgPicture.asset(
                           'assets/phone.svg',
-                          width: 14,
-                          height: 14,
-                          color: const Color(0xff343434),
+                          width: (14 / 393) * screenWidth,
+                          height: (14 / 852) * screenHeight,
                         ),
-                        SizedBox(width: 12),
+                        SizedBox(width: (12 / 393) * screenWidth),
                         Text(
                           phoneNumber,
                           style: medium15.copyWith(
                             fontSize: (14 / 393) * screenWidth,
-                            color: Color(0xFF131313),
+                            color: const Color(0xFF131313),
                             fontWeight: FontWeight.w500,
                             decoration: TextDecoration.underline,
                           ),
@@ -272,15 +270,14 @@ class _BigMapPageState extends State<BigMapPage> {
                       SvgPicture.asset(
                         'assets/clock.svg',
                         alignment: AlignmentDirectional.topStart,
-                        width: 14,
-                        height: 14,
-                        color: const Color(0xff343434),
+                        width: (14 / 393) * screenWidth,
+                        height: (14 / 852) * screenHeight,
                       ),
                       SizedBox(width: (12 / 393) * screenWidth),
                       Text(
                         time,
                         style: medium13.copyWith(
-                          color: Color(0xFF131313),
+                          color: const Color(0xFF131313),
                           fontSize: (14 / 393) * screenWidth,
                         ),
                       ),
@@ -293,9 +290,8 @@ class _BigMapPageState extends State<BigMapPage> {
                         children: [
                           SvgPicture.asset(
                             'assets/won.svg',
-                            width: 14,
-                            height: 14,
-                            color: const Color(0xff343434),
+                            width: (14 / 393) * screenWidth,
+                            height: (14 / 852) * screenHeight,
                           ),
                         ],
                       ),
@@ -331,12 +327,12 @@ class _BigMapPageState extends State<BigMapPage> {
                   ),
                   SizedBox(height: (17 / 852) * screenHeight),
                   SizedBox(
-                    height: 200,
+                    height: screenHeight * 0.25,
                     child: SingleChildScrollView(
                       child: Text(
                         information,
                         style: medium13.copyWith(
-                          color: Color(0xFF131313),
+                          color: const Color(0xFF131313),
                           fontSize: (14 / 393) * screenWidth,
                           letterSpacing: -0.28,
                         ),
@@ -347,16 +343,16 @@ class _BigMapPageState extends State<BigMapPage> {
               ),
               Positioned(
                 left: (160 / 393) * screenWidth,
-                top: (130 / 852) * screenHeight,
+                top: (135 / 852) * screenHeight,
                 child: Container(
-                  width: 90,
-                  height: 90,
-                  decoration: ShapeDecoration(
+                  width: (90 / 393) * screenWidth, // 원하는 비율로 너비 설정
+                  height: (90 / 393) * screenWidth, // 높이를 동일하게 설정하여 원형 유지
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle, // 원형으로 설정
                     image: DecorationImage(
                       image: NetworkImage(imageUrl),
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover, // 원형에 맞게 이미지 커버
                     ),
-                    shape: OvalBorder(),
                   ),
                 ),
               )
@@ -366,29 +362,25 @@ class _BigMapPageState extends State<BigMapPage> {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                _getNaverRoute(location); // 해당 위치로 길 안내
+                _getNaverRoute(location);
               },
-              style: ButtonStyle(
-                elevation: const WidgetStatePropertyAll(0),
-                backgroundColor: const WidgetStatePropertyAll(
-                  Color(0xFF4FA2FF),
-                ),
-                shape: WidgetStatePropertyAll(
-                  RoundedRectangleBorder(
-                    side: const BorderSide(width: 1, color: Color(0xFF4FA2FF)),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                backgroundColor: const Color(0xFF4FA2FF),
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(width: 1, color: Color(0xFF4FA2FF)),
+                  borderRadius: BorderRadius.circular(6),
                 ),
               ),
               child: SizedBox(
-                width: 274,
-                height: 30,
+                width: screenWidth * 0.8,
+                height: screenHeight * 0.05,
                 child: Center(
                   child: Text(
                     '안내받기',
                     style: medium13.copyWith(
-                      color: const Color(0xFFFFFFFF),
-                      fontSize: 15,
+                      color: Colors.white,
+                      fontSize: (15 / 393) * screenWidth,
                       fontFamily: 'S-Core Dream',
                       fontWeight: FontWeight.w600,
                       height: 0.09,
@@ -463,14 +455,21 @@ class _BigMapPageState extends State<BigMapPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
         automaticallyImplyLeading: false,
         title: Center(
-          child: const Text(
+          child: Text(
             '울릉투어 맵',
-            style: regular23,
+            style: regular23.copyWith(
+              fontWeight: FontWeight.w500,
+              height: 0.03,
+              letterSpacing: -0.32,
+              fontSize: (23 / 393) * screenWidth,
+            ),
           ),
         ),
         backgroundColor: const Color(0xffC6EBFE),
@@ -480,40 +479,13 @@ class _BigMapPageState extends State<BigMapPage> {
           Container(
             color: const Color(0xffC6EBFE),
             child: Padding(
-              padding: const EdgeInsets.only(top: 20),
+              padding: EdgeInsets.only(top: screenHeight * 0.025),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ChoiceChip(
-                    label: const Text('전체지도', style: regular15),
-                    selected: _selectedFilter == 'all',
-                    onSelected: (bool selected) {
-                      _filterMarkers('all');
-                    },
-                    selectedColor: AppColor.primary,
-                    backgroundColor: Colors.white,
-                    shape: _chipShape(),
-                  ),
-                  ChoiceChip(
-                    label: const Text('관광지', style: regular15),
-                    selected: _selectedFilter == 'tourist',
-                    onSelected: (bool selected) {
-                      _filterMarkers('tourist');
-                    },
-                    selectedColor: AppColor.primary,
-                    backgroundColor: Colors.white,
-                    shape: _chipShape(),
-                  ),
-                  ChoiceChip(
-                    label: const Text('쓰레기통', style: regular15),
-                    selected: _selectedFilter == 'trash',
-                    onSelected: (bool selected) {
-                      _filterMarkers('trash');
-                    },
-                    selectedColor: AppColor.primary,
-                    backgroundColor: Colors.white,
-                    shape: _chipShape(),
-                  ),
+                  _buildChoiceChip('전체지도', 'all', screenWidth),
+                  _buildChoiceChip('관광지', 'tourist', screenWidth),
+                  _buildChoiceChip('쓰레기통', 'trash', screenWidth),
                 ],
               ),
             ),
@@ -538,10 +510,22 @@ class _BigMapPageState extends State<BigMapPage> {
     );
   }
 
-  RoundedRectangleBorder _chipShape() {
-    return RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(30),
-      side: const BorderSide(color: Color(0xffC6EBFE)),
+  Widget _buildChoiceChip(String label, String filter, double screenWidth) {
+    return ChoiceChip(
+      label: Text(
+        label,
+        style: regular15.copyWith(fontSize: (15 / 393) * screenWidth),
+      ),
+      selected: _selectedFilter == filter,
+      onSelected: (bool selected) {
+        _filterMarkers(filter);
+      },
+      selectedColor: AppColor.primary,
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+        side: const BorderSide(color: Color(0xffC6EBFE)),
+      ),
     );
   }
 }

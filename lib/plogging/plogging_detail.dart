@@ -47,24 +47,26 @@ class _CourseDetailPageState extends State<CourseDetailPage> {
                   Image.network(
                     widget.courseImage,
                     width: double.infinity,
-                    height: (341 / 852) * screenHeight,
+                    height: screenHeight * 0.4, // Relative height for image
                     fit: BoxFit.cover,
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding: EdgeInsets.all(screenWidth * 0.05),
                     child: Text(
                       widget.courseTitle,
-                      style: extrabold25,
+                      style:
+                          extrabold25.copyWith(fontSize: screenWidth * 0.065),
                     ),
                   ),
                   Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
-                    child: const TabBar(
+                        EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                    child: TabBar(
                       indicatorSize: TabBarIndicatorSize.tab,
                       indicatorColor: Colors.black,
-                      labelStyle: medium15,
-                      tabs: [
+                      labelStyle:
+                          medium15.copyWith(fontSize: screenWidth * 0.04),
+                      tabs: const [
                         Tab(text: '코스정보'),
                         Tab(text: '리뷰'),
                       ],
@@ -72,7 +74,8 @@ class _CourseDetailPageState extends State<CourseDetailPage> {
                   ),
                   SizedBox(height: screenHeight * 0.012),
                   SizedBox(
-                    height: (340 / 852) * screenHeight,
+                    height:
+                        screenHeight * 0.4, // Relative height for TabBarView
                     child: TabBarView(
                       children: [
                         _buildCourseInfo(screenWidth, screenHeight),
@@ -94,10 +97,10 @@ class _CourseDetailPageState extends State<CourseDetailPage> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.arrow_back_ios,
                     color: Colors.white,
-                    size: 30,
+                    size: screenWidth * 0.08,
                   ),
                 ),
               )
@@ -108,8 +111,8 @@ class _CourseDetailPageState extends State<CourseDetailPage> {
           color: Colors.white,
           child: Center(
             child: SizedBox(
-              width: 350,
-              height: 65,
+              width: screenWidth * 0.9,
+              height: screenHeight * 0.08,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -127,14 +130,15 @@ class _CourseDetailPageState extends State<CourseDetailPage> {
                   elevation: 0,
                   backgroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   side: const BorderSide(
                     color: Color(0xff4468AD),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   '장소 안내받기',
-                  style: extrabold20,
+                  style: extrabold20.copyWith(fontSize: screenWidth * 0.05),
                 ),
               ),
             ),
@@ -151,23 +155,24 @@ class _CourseDetailPageState extends State<CourseDetailPage> {
       children: [
         Padding(
           padding: EdgeInsets.only(
-            left: (20 / 393) * screenWidth,
-            top: (32 / 852) * screenHeight,
-            bottom: (14 / 852) * screenHeight,
+            left: screenWidth * 0.05,
+            top: screenHeight * 0.037,
+            bottom: screenHeight * 0.017,
           ),
           child: Row(
             children: [
               SvgPicture.asset(
                 'assets/system-uicons_location.svg',
-                width: 23,
-                height: 23,
+                width: screenWidth * 0.06,
+                height: screenWidth * 0.06,
                 color: const Color(0xff000000),
               ),
+              SizedBox(width: screenWidth * 0.02),
               Text(
                 '주소: ',
                 style: medium15.copyWith(
                   fontWeight: FontWeight.w500,
-                  height: 0.09,
+                  fontSize: screenWidth * 0.04,
                   letterSpacing: -0.32,
                 ),
               ),
@@ -175,7 +180,7 @@ class _CourseDetailPageState extends State<CourseDetailPage> {
                 child: Text(
                   widget.courseLocationName,
                   style: regular15.copyWith(
-                    fontSize: (15 / 393) * screenWidth,
+                    fontSize: screenWidth * 0.04,
                     fontWeight: FontWeight.w300,
                     letterSpacing: -0.32,
                   ),
@@ -185,30 +190,29 @@ class _CourseDetailPageState extends State<CourseDetailPage> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(
-            left: (20 / 393) * screenWidth,
-          ),
+          padding: EdgeInsets.only(left: screenWidth * 0.05),
           child: Row(
             children: [
               SvgPicture.asset(
                 'assets/time.svg',
-                width: 23,
-                height: 23,
+                width: screenWidth * 0.06,
+                height: screenWidth * 0.06,
                 color: const Color(0xff000000),
               ),
+              SizedBox(width: screenWidth * 0.02),
               Text(
                 "관광시간: ",
                 style: medium15.copyWith(
                   fontWeight: FontWeight.w500,
-                  height: 0.09,
+                  fontSize: screenWidth * 0.04,
                   letterSpacing: -0.32,
                 ),
               ),
               Text(
                 widget.courseDuration,
                 style: regular15.copyWith(
+                  fontSize: screenWidth * 0.04,
                   fontWeight: FontWeight.w300,
-                  height: 0.09,
                   letterSpacing: -0.32,
                 ),
               )

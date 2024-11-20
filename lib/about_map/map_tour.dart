@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -25,7 +26,7 @@ class GoogleMapTourPage extends StatefulWidget {
 
 class _GoogleMapTourPageState extends State<GoogleMapTourPage> {
   GoogleMapController? _mapController;
-  LatLng? _currentPosition; // nullable로 설정
+  LatLng? _currentPosition;
   final Set<Marker> _markers = {};
   late LatLng _destinationLocation;
   final Set<Polyline> _polylines = {};
@@ -47,12 +48,10 @@ class _GoogleMapTourPageState extends State<GoogleMapTourPage> {
     super.dispose();
   }
 
-  // 목적지 초기화
   void _initializeDestination() {
     _destinationLocation = LatLng(widget.location[0], widget.location[1]);
   }
 
-  // 권한 확인 및 현재 위치 설정
   Future<void> _checkPermissions() async {
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
@@ -66,7 +65,7 @@ class _GoogleMapTourPageState extends State<GoogleMapTourPage> {
       _currentPosition =
           LatLng(currentPosition.latitude, currentPosition.longitude);
       _updateCurrentLocationMarker();
-      _getNaverRoute(); // 위치가 설정된 후에 경로를 가져옴
+      _getNaverRoute();
     });
 
     _positionStreamSubscription =
@@ -74,12 +73,11 @@ class _GoogleMapTourPageState extends State<GoogleMapTourPage> {
       setState(() {
         _currentPosition = LatLng(position.latitude, position.longitude);
         _updateCurrentLocationMarker();
-        _getNaverRoute(); // 위치 변경 시마다 경로를 다시 가져옴
+        _getNaverRoute();
       });
     });
   }
 
-  // 현재 위치 마커 업데이트
   void _updateCurrentLocationMarker() {
     if (_currentPosition == null) return;
 
@@ -96,7 +94,6 @@ class _GoogleMapTourPageState extends State<GoogleMapTourPage> {
     });
   }
 
-  // 목적지 마커 추가
   void _addDestinationMarker() {
     setState(() {
       _markers.add(
@@ -111,7 +108,6 @@ class _GoogleMapTourPageState extends State<GoogleMapTourPage> {
     });
   }
 
-  // 경로 데이터를 이용해 폴리라인을 지도에 추가
   void _setPolylineFromNaverPoints(List points) {
     final List<LatLng> polylineCoordinates = points.map<LatLng>((point) {
       return LatLng(point[1], point[0]);
@@ -130,7 +126,6 @@ class _GoogleMapTourPageState extends State<GoogleMapTourPage> {
     });
   }
 
-  // Naver API를 사용하여 현재 위치에서 목적지로 경로 가져옴
   Future<void> _getNaverRoute() async {
     if (_currentPosition == null) return;
 
@@ -157,7 +152,6 @@ class _GoogleMapTourPageState extends State<GoogleMapTourPage> {
     }
   }
 
-  // Google Map 스타일 설정
   void _setMapStyle(GoogleMapController controller) async {
     const style = '''[
     {
@@ -202,68 +196,92 @@ class _GoogleMapTourPageState extends State<GoogleMapTourPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    User? user = FirebaseAuth.instance.currentUser;
+    String? uid = user?.uid;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
       ),
       body: _currentPosition == null
           ? const Center(
-              child: CircularProgressIndicator()) // 초기화되지 않았을 때 로딩 인디케이터
-          : GoogleMap(
-              initialCameraPosition: CameraPosition(
-                target: _currentPosition!,
-                zoom: 14.0,
-              ),
-              markers: _markers,
-              onMapCreated: (GoogleMapController controller) {
-                _mapController = controller;
-                _setMapStyle(controller);
-              },
-              myLocationEnabled: true,
-              myLocationButtonEnabled: true,
-              polylines: _polylines,
+              child:
+                  CircularProgressIndicator()) // Show a loading indicator if position is null
+          : Stack(
+              children: [
+                // Use Positioned.fill to make the GoogleMap fill the available space
+                Positioned.fill(
+                  child: GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: _currentPosition!,
+                      zoom: 14.0,
+                    ),
+                    markers: _markers,
+                    onMapCreated: (GoogleMapController controller) {
+                      _mapController = controller;
+                      _setMapStyle(controller);
+                    },
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: true,
+                    polylines: _polylines,
+                  ),
+                ),
+                // Position the button at the bottom center
+                Positioned(
+                  bottom: (50 / 852) * screenHeight,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        (uid == null || uid.isEmpty)
+                            ? Navigator.of(context).pop()
+                            : Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ReviewCreatePageTour(
+                                    courseId: widget.courseId,
+                                  ),
+                                ),
+                              );
+                      },
+                      style: ButtonStyle(
+                        elevation: const WidgetStatePropertyAll(0),
+                        backgroundColor: const WidgetStatePropertyAll(
+                          Color(0xFF4FA2FF),
+                        ),
+                        shape: WidgetStatePropertyAll(
+                          RoundedRectangleBorder(
+                            side: const BorderSide(
+                                width: 1, color: Color(0xFF4FA2FF)),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                        ),
+                      ),
+                      child: SizedBox(
+                        width: (180 / 393) * screenWidth,
+                        height: (30 / 852) * screenHeight,
+                        child: Center(
+                          child: Text(
+                            '안내종료',
+                            style: medium13.copyWith(
+                              color: const Color(0xFFFFFFFF),
+                              fontSize: (15 / 393) * screenWidth,
+                              fontFamily: 'S-Core Dream',
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: -0.32,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-      bottomSheet: ElevatedButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ReviewCreatePageTour(
-                courseId: widget.courseId,
-              ),
-            ),
-          );
-        },
-        style: ButtonStyle(
-          elevation: const WidgetStatePropertyAll(0),
-          backgroundColor: const WidgetStatePropertyAll(
-            Color(0xFF4FA2FF),
-          ),
-          shape: WidgetStatePropertyAll(
-            RoundedRectangleBorder(
-              side: const BorderSide(width: 1, color: Color(0xFF4FA2FF)),
-              borderRadius: BorderRadius.circular(6),
-            ),
-          ),
-        ),
-        child: SizedBox(
-          width: 180,
-          height: 30,
-          child: Center(
-            child: Text(
-              '안내종료',
-              style: medium13.copyWith(
-                color: const Color(0xFFFFFFFF),
-                fontSize: 15,
-                fontFamily: 'S-Core Dream',
-                fontWeight: FontWeight.w600,
-                height: 0.09,
-                letterSpacing: -0.32,
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

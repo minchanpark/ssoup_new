@@ -65,33 +65,32 @@ class TaxiPage extends StatelessWidget {
           '울릉도 콜택시',
           style: medium15.copyWith(
             fontWeight: FontWeight.w500,
-            fontSize: 18,
+            fontSize: screenWidth * 0.045,
             height: 0.07,
             letterSpacing: -0.32,
           ),
         ),
+        centerTitle: true,
       ),
       body: Column(
         children: [
           Divider(
-            indent: (25 / 393) * screenWidth,
-            endIndent: (25 / 393) * screenWidth,
+            indent: screenWidth * 0.06,
+            endIndent: screenWidth * 0.06,
           ),
           Expanded(
             child: ListView.builder(
               itemCount: taxiData.length,
-              padding: EdgeInsets.only(
-                right: (25 / 393) * screenWidth,
-                left: (25 / 393) * screenWidth,
-                top: (15 / 852) * screenHeight,
+              padding: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.06,
+                vertical: screenHeight * 0.02,
               ),
               itemBuilder: (context, index) {
                 return Container(
-                  margin:
-                      EdgeInsets.symmetric(vertical: (5 / 852) * screenHeight),
-                  padding: EdgeInsets.only(left: (17 / 393) * screenWidth),
-                  width: 343,
-                  height: 84,
+                  margin: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
+                  padding: EdgeInsets.only(left: screenWidth * 0.04),
+                  width: screenWidth * 0.87,
+                  height: screenHeight * 0.11,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10.0),
@@ -110,6 +109,7 @@ class TaxiPage extends StatelessWidget {
                             Text(
                               taxiData[index]['name']!,
                               style: medium16.copyWith(
+                                fontSize: screenWidth * 0.04,
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: -0.32,
                               ),
@@ -118,23 +118,25 @@ class TaxiPage extends StatelessWidget {
                               Text(
                                 taxiData[index]['info']!,
                                 style: regular13.copyWith(
+                                  fontSize: screenWidth * 0.033,
                                   fontWeight: FontWeight.w200,
                                   letterSpacing: -0.32,
                                 ),
                               ),
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   FluentIcons.call_20_regular,
                                   color: Colors.blue,
-                                  size: 20,
+                                  size: screenWidth * 0.05,
                                 ),
+                                SizedBox(width: screenWidth * 0.01),
                                 Text(
                                   taxiData[index]['phone']!,
                                   style: regular10.copyWith(
+                                    fontSize: screenWidth * 0.033,
                                     fontWeight: FontWeight.w200,
                                     letterSpacing: -0.32,
-                                    fontSize: 13,
                                   ),
                                 ),
                               ],
@@ -143,10 +145,10 @@ class TaxiPage extends StatelessWidget {
                         ),
                       ),
                       IconButton(
-                        icon: const Icon(
+                        icon: Icon(
                           FluentIcons.call_20_regular,
                           color: Colors.blue,
-                          size: 45,
+                          size: screenWidth * 0.1,
                         ),
                         onPressed: () =>
                             _makePhoneCall(taxiData[index]['phone']!),
@@ -157,11 +159,14 @@ class TaxiPage extends StatelessWidget {
               },
             ),
           ),
-          SizedBox(
-            height: (30 / 852) * screenHeight,
+          Padding(
+            padding: EdgeInsets.only(bottom: screenHeight * 0.02),
             child: Text(
               '*네이버 기준 영업등록된 콜택시입니다.',
-              style: TextStyle(color: Colors.grey.shade600),
+              style: TextStyle(
+                color: Colors.grey.shade600,
+                fontSize: screenWidth * 0.03,
+              ),
               textAlign: TextAlign.center,
             ),
           ),

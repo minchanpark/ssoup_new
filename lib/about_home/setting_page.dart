@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ssoup_new/main.dart';
 import 'package:ssoup_new/theme/text.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart'; // 로그인 정보를 안전하게 저장하기 위한 패키지
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -12,7 +13,8 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  String nickName = '';
+  String nickName = '게스트';
+  final storage = FlutterSecureStorage(); // FlutterSecureStorage 인스턴스 생성
 
   Future<void> fetchNickName() async {
     try {
@@ -33,19 +35,6 @@ class _SettingsPageState extends State<SettingsPage> {
     fetchNickName();
   }
 
-  /*void _logout() {
-    try {
-      FirebaseAuth.instance.signOut();
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => MyApp()),
-        (Route<dynamic> route) => false, // 모든 이전 페이지 스택을 제거
-      );
-    } catch (e) {
-      print('Error logging out: $e');
-    }
-  }*/
-
   void _deleteAccount() {
     try {
       String uid = FirebaseAuth.instance.currentUser!.uid;
@@ -58,7 +47,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => MyApp()),
+        MaterialPageRoute(builder: (context) => const MyApp()),
         (Route<dynamic> route) => false, // 모든 이전 페이지 스택을 제거
       );
     } catch (e) {
@@ -78,7 +67,7 @@ class _SettingsPageState extends State<SettingsPage> {
             TextButton(
               child: Text(
                 '취소',
-                style: medium13.copyWith(color: Color(0xFF1A86FF)),
+                style: medium13.copyWith(color: const Color(0xFF1A86FF)),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -87,7 +76,7 @@ class _SettingsPageState extends State<SettingsPage> {
             TextButton(
               child: Text(
                 '탈퇴',
-                style: medium13.copyWith(color: Color(0xff9D9D9D)),
+                style: medium13.copyWith(color: const Color(0xff9D9D9D)),
               ),
               onPressed: () {
                 Navigator.of(context).pop(); // 다이얼로그 닫기
@@ -112,7 +101,7 @@ class _SettingsPageState extends State<SettingsPage> {
             TextButton(
               child: Text(
                 '취소',
-                style: medium13.copyWith(color: Color(0xFF1A86FF)),
+                style: medium13.copyWith(color: const Color(0xFF1A86FF)),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -121,13 +110,21 @@ class _SettingsPageState extends State<SettingsPage> {
             TextButton(
               child: Text(
                 '로그아웃',
-                style: medium13.copyWith(color: Color(0xff9D9D9D)),
+                style: medium13.copyWith(color: const Color(0xff9D9D9D)),
               ),
-              onPressed: () {
+              onPressed: () async {
+                // 다이얼로그 닫기
+                Navigator.of(context).pop();
+
+                // 저장된 로그인 정보 삭제
+                await storage.delete(key: 'login_success');
+                print("로그인 정보가 삭제 되었습니다.");
+
+                // 로그인 페이지로 이동
                 FirebaseAuth.instance.signOut();
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => MyApp()),
+                  MaterialPageRoute(builder: (context) => const MyApp()),
                   (Route<dynamic> route) => false, // 모든 이전 페이지 스택을 제거
                 );
               },
@@ -143,6 +140,9 @@ class _SettingsPageState extends State<SettingsPage> {
     double appWidth = MediaQuery.of(context).size.width;
     double appHeight = MediaQuery.of(context).size.height;
 
+    User? user = FirebaseAuth.instance.currentUser;
+    String? uid = user?.uid;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -154,11 +154,11 @@ class _SettingsPageState extends State<SettingsPage> {
             Navigator.of(context).pop();
           },
         ),
-        title: const Text(
+        title: Text(
           '설정',
           style: TextStyle(
             color: Colors.black,
-            fontSize: 18,
+            fontSize: (18 / 393) * appWidth,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -178,25 +178,23 @@ class _SettingsPageState extends State<SettingsPage> {
                 children: [
                   Container(
                     width: (65 / 393) * appWidth,
-                    height: (65 / 852) * appHeight,
+                    height: (65 / 393) * appWidth,
                     decoration: ShapeDecoration(
-                      color: Colors.transparent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100),
-                        side: BorderSide(color: Colors.black),
+                        side: const BorderSide(color: Colors.black),
                       ),
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Image.asset("assets/ul.png"),
+                    child: ClipOval(
+                      child: Image.asset("assets/ul.png", fit: BoxFit.fill),
                     ),
                   ),
-                  const SizedBox(width: 6),
+                  SizedBox(width: (6 / 393) * appWidth),
                   Text(
                     '$nickName 님',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.w600,
-                      fontSize: 15,
+                      fontSize: (15 / 393) * appWidth,
                       letterSpacing: -0.32,
                     ),
                   ),
@@ -208,18 +206,22 @@ class _SettingsPageState extends State<SettingsPage> {
             // 메뉴 항목 리스트
             Column(
               children: [
-                _buildMenuItem('서비스 이용약관', 0),
+                _buildMenuItem('서비스 이용약관', 0, context),
                 const Divider(
                     thickness: 1, height: 2, color: Color(0xffB1B1B1)),
-                _buildMenuItem('개인정보 처리방침', 1),
+                _buildMenuItem('개인정보 처리방침', 1, context),
                 const Divider(
                     thickness: 1, height: 2, color: Color(0xffB1B1B1)),
-                _buildMenuItem('로그아웃', 2),
+                _buildMenuItem('로그아웃', 2, context),
                 const Divider(
                     thickness: 1, height: 2, color: Color(0xffB1B1B1)),
-                _buildMenuItem('회원탈퇴', 3),
-                const Divider(
-                    thickness: 1, height: 2, color: Color(0xffB1B1B1)),
+                (uid == null || uid.isEmpty)
+                    ? const SizedBox()
+                    : _buildMenuItem('회원탈퇴', 3, context),
+                (uid == null || uid.isEmpty)
+                    ? const SizedBox()
+                    : const Divider(
+                        thickness: 1, height: 2, color: Color(0xffB1B1B1)),
               ],
             ),
           ],
@@ -229,12 +231,14 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   // 메뉴 항목을 쉽게 만들기 위한 헬퍼 함수
-  Widget _buildMenuItem(String title, int index) {
+  Widget _buildMenuItem(String title, int index, BuildContext context) {
+    //double appWidth = MediaQuery.of(context).size.width;
+    double appHeight = MediaQuery.of(context).size.height;
     return ListTile(
       title: Text(
         title,
-        style: const TextStyle(
-          fontSize: 17,
+        style: TextStyle(
+          fontSize: (17 / 852) * appHeight,
           fontWeight: FontWeight.w500,
           letterSpacing: -0.32,
         ),
