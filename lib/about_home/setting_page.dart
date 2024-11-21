@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ssoup_new/about_login/login.dart';
 import 'package:ssoup_new/main.dart';
 import 'package:ssoup_new/theme/text.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart'; // 로그인 정보를 안전하게 저장하기 위한 패키지
@@ -45,9 +46,13 @@ class _SettingsPageState extends State<SettingsPage> {
       // 2. Firebase Authentication에서 사용자 삭제
       FirebaseAuth.instance.currentUser!.delete();
 
+      // 3. 로그인 정보 삭제
+      storage.delete(key: 'login_success');
+      print("로그인 정보가 삭제 되었습니다.");
+
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => const MyApp()),
+        MaterialPageRoute(builder: (context) => const LoginPage()),
         (Route<dynamic> route) => false, // 모든 이전 페이지 스택을 제거
       );
     } catch (e) {
